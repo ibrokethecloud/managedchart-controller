@@ -21,7 +21,7 @@ import (
 	fmt "fmt"
 	http "net/http"
 
-	catalogv1 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/catalog.cattle.io/v1"
+	fleetv1alpha1 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/fleet.cattle.io/v1alpha1"
 	managementv3 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/management.cattle.io/v3"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
@@ -30,20 +30,20 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	CatalogV1() catalogv1.CatalogV1Interface
+	FleetV1alpha1() fleetv1alpha1.FleetV1alpha1Interface
 	ManagementV3() managementv3.ManagementV3Interface
 }
 
 // Clientset contains the clients for groups.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	catalogV1    *catalogv1.CatalogV1Client
-	managementV3 *managementv3.ManagementV3Client
+	fleetV1alpha1 *fleetv1alpha1.FleetV1alpha1Client
+	managementV3  *managementv3.ManagementV3Client
 }
 
-// CatalogV1 retrieves the CatalogV1Client
-func (c *Clientset) CatalogV1() catalogv1.CatalogV1Interface {
-	return c.catalogV1
+// FleetV1alpha1 retrieves the FleetV1alpha1Client
+func (c *Clientset) FleetV1alpha1() fleetv1alpha1.FleetV1alpha1Interface {
+	return c.fleetV1alpha1
 }
 
 // ManagementV3 retrieves the ManagementV3Client
@@ -95,7 +95,7 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 
 	var cs Clientset
 	var err error
-	cs.catalogV1, err = catalogv1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	cs.fleetV1alpha1, err = fleetv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.catalogV1 = catalogv1.New(c)
+	cs.fleetV1alpha1 = fleetv1alpha1.New(c)
 	cs.managementV3 = managementv3.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)

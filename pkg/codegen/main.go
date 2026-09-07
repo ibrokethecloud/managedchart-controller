@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	v1 "github.com/harvester/managedchart-controller/pkg/apis/catalog.cattle.io/v1"
 	v3 "github.com/harvester/managedchart-controller/pkg/apis/management.cattle.io/v3"
+	"github.com/rancher/fleet/pkg/apis/fleet.cattle.io/v1alpha1"
 	controllergen "github.com/rancher/wrangler/v3/pkg/controller-gen"
 	"github.com/rancher/wrangler/v3/pkg/controller-gen/args"
 )
@@ -22,11 +22,11 @@ func main() {
 				GenerateTypes:   true,
 				GenerateClients: true,
 			},
-			"catalog.cattle.io": {
+			"fleet.cattle.io": {
 				Types: []interface{}{
-					v1.ClusterRepo{},
+					v1alpha1.Bundle{},
 				},
-				GenerateTypes:   true,
+				GenerateTypes:   false,
 				GenerateClients: true,
 			},
 		},

@@ -18,8 +18,8 @@ limitations under the License.
 package fake
 
 import (
-	catalogv1 "github.com/harvester/managedchart-controller/pkg/apis/catalog.cattle.io/v1"
 	managementv3 "github.com/harvester/managedchart-controller/pkg/apis/management.cattle.io/v3"
+	fleetv1alpha1 "github.com/rancher/fleet/pkg/apis/fleet.cattle.io/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -31,7 +31,7 @@ var scheme = runtime.NewScheme()
 var codecs = serializer.NewCodecFactory(scheme)
 
 var localSchemeBuilder = runtime.SchemeBuilder{
-	catalogv1.AddToScheme,
+	fleetv1alpha1.AddToScheme,
 	managementv3.AddToScheme,
 }
 

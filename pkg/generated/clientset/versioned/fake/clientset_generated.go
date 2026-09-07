@@ -19,8 +19,8 @@ package fake
 
 import (
 	clientset "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned"
-	catalogv1 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/catalog.cattle.io/v1"
-	fakecatalogv1 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/catalog.cattle.io/v1/fake"
+	fleetv1alpha1 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/fleet.cattle.io/v1alpha1"
+	fakefleetv1alpha1 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/fleet.cattle.io/v1alpha1/fake"
 	managementv3 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/management.cattle.io/v3"
 	fakemanagementv3 "github.com/harvester/managedchart-controller/pkg/generated/clientset/versioned/typed/management.cattle.io/v3/fake"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -96,9 +96,9 @@ var (
 	_ testing.FakeClient  = &Clientset{}
 )
 
-// CatalogV1 retrieves the CatalogV1Client
-func (c *Clientset) CatalogV1() catalogv1.CatalogV1Interface {
-	return &fakecatalogv1.FakeCatalogV1{Fake: &c.Fake}
+// FleetV1alpha1 retrieves the FleetV1alpha1Client
+func (c *Clientset) FleetV1alpha1() fleetv1alpha1.FleetV1alpha1Interface {
+	return &fakefleetv1alpha1.FakeFleetV1alpha1{Fake: &c.Fake}
 }
 
 // ManagementV3 retrieves the ManagementV3Client

@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+source $(dirname $0)/version
+
+cd $(dirname $0)/..
+
+mkdir -p bin
+[ "$(uname)" != "Darwin" ] && LINKFLAGS="-extldflags -static -s"
+GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-X main.VERSION=$VERSION $LINKFLAGS" -o bin/managedchart-controller-amd64
+GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-X main.VERSION=$VERSION $LINKFLAGS" -o bin/managedchart-controller-arm64

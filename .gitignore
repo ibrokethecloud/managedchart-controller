@@ -1,0 +1,6 @@
+.dapper
+managedchart-controller
+bin/
+dist/
+.idea
+TAGS
