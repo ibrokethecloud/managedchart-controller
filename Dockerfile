@@ -15,6 +15,27 @@ RUN go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
 
 ENV GO111MODULE=on
 
+## setup envtest packages
+RUN zypper -n --gpg-auto-import-keys refresh && \
+    zypper -n install git && \
+    zypper -n clean -a
+
+RUN curl -sSfL -o /tmp/envtest.sha https://raw.githubusercontent.com/kubernetes-sigs/controller-tools/5d9089dd33ea98f4683d6ef25a0b1363faeb8494/envtest-releases.yaml
+RUN export K8S_VERSION=v1.35.0 && \
+    export OS=$(go env GOOS) && \
+    export ARCH=$(go env GOARCH) && \
+    export ENVTEST=envtest-${K8S_VERSION}-${OS}-${ARCH}.tar.gz && \
+    echo $ENVTEST > /tmp/envtest && \
+    export EXPECTED_HASH=$(yq -e '.releases[env(K8S_VERSION)][env(ENVTEST)].hash' /tmp/envtest.sha) && \
+    curl -sSLo envtest-bins.tar.gz "https://github.com/kubernetes-sigs/controller-tools/releases/download/envtest-${K8S_VERSION}/envtest-${K8S_VERSION}-${OS}-${ARCH}.tar.gz" && \
+    export HASH=$(shasum -a 512 envtest-bins.tar.gz | awk '{print $1}') && \
+    if [ "$HASH" != "$EXPECTED_HASH" ]; then \
+        echo "Hash verification failed!"; \
+        exit 1; \
+    fi && \
+    mkdir /usr/local/kubebuilder && \
+    tar -C /usr/local/kubebuilder --strip-components=1 -zvxf envtest-bins.tar.gz
+
 ENV KUBEBUILDER_ASSETS="/usr/local/kubebuilder/envtest"
 ENV HOME=/go/src/github.com/harvester/managedchart-controller
 

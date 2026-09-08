@@ -1,4 +1,4 @@
-# managedchaart-controller
+# managedchart-controller
 
 Standalone controller to manage lifecycle of existing managedcharts
 

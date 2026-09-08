@@ -48,7 +48,7 @@ func Register(ctx context.Context, mgmtController mgmtcontrollers.Interface, bun
 			WithCacheTypes(
 				mgmtController.ManagedChart(),
 				bundleController),
-		"Defined",
+		"Define",
 		"mcc-bundle",
 		h.OnChange,
 		nil)
@@ -59,6 +59,7 @@ type Handler struct {
 }
 
 func (h *Handler) OnChange(mcc *v3.ManagedChart, status v3.ManagedChartStatus) ([]runtime.Object, v3.ManagedChartStatus, error) {
+	logrus.Debugf("reconcilling managedchart %s in namespace %s", mcc.Name, mcc.Namespace)
 	chart, err := helm.ReadChart(mcc.Spec.RepoName, mcc.Spec.Chart, mcc.Spec.Version)
 	if err != nil {
 		return nil, status, err
