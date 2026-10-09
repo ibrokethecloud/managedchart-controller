@@ -11,7 +11,7 @@ import (
 
 	"github.com/ghodss/yaml"
 	"github.com/sirupsen/logrus"
-	"helm.sh/helm/v3/pkg/repo"
+	repo "helm.sh/helm/v4/pkg/repo/v1"
 )
 
 func DownloadIndex(repoURL string) (*repo.IndexFile, error) {
