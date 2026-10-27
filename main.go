@@ -6,6 +6,7 @@ package main
 import (
 	"context"
 
+	"github.com/harvester/managedchart-controller/pkg/crd"
 	"github.com/harvester/managedchart-controller/pkg/server"
 	"github.com/rancher/wrangler/v3/pkg/leader"
 	"github.com/rancher/wrangler/v3/pkg/signals"
@@ -28,6 +29,11 @@ func main() {
 	}
 
 	ctx := signals.SetupSignalContext()
+	// setup CRDs
+	if err := crd.Create(ctx, config); err != nil {
+		logrus.Fatal(err)
+	}
+
 	s := server.NewServer(config)
 	k8sClient, err := kubernetes.NewForConfig(config)
 	if err != nil {
